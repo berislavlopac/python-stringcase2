@@ -1,12 +1,11 @@
-"""
-String convert functions
-"""
+"""String convert functions."""
 
 import re
 
 
 def camelcase(string):
-    """ Convert string into camel case.
+    """
+    Convert string into camel case.
 
     Args:
         string: String to convert.
@@ -15,22 +14,23 @@ def camelcase(string):
         string: Camel case string.
 
     """
-    
     if string == "":
         return string
 
-    string = string.replace("_","-")
-    lst = string.split("-")
-    for i in range(len(lst)):
-        if i == 0:
-            continue
-        else:
-            lst[i] = lst[i].capitalize()
-    
-    return "".join(lst)
+    string = kebabcase(string).strip("-")
+
+    words = [
+        word.lower() if index == 0 else word.capitalize()
+        for index, word in enumerate(string.split("-"))
+    ]
+
+    return "".join(words)
+
 
 def capitalcase(string):
-    """Convert string into capital case.
+    """
+    Convert string into capital case.
+
     First letters will be uppercase.
 
     Args:
@@ -40,7 +40,6 @@ def capitalcase(string):
         string: Capital case string.
 
     """
-
     string = str(string)
     if not string:
         return string
@@ -48,7 +47,9 @@ def capitalcase(string):
 
 
 def constcase(string):
-    """Convert string into upper snake case.
+    """
+    Convert string into upper snake case.
+
     Join punctuation with underscore and convert letters into uppercase.
 
     Args:
@@ -58,12 +59,12 @@ def constcase(string):
         string: Const cased string.
 
     """
-
     return uppercase(snakecase(string))
 
 
 def lowercase(string):
-    """Convert string into lower case.
+    """
+    Convert string into lower case.
 
     Args:
         string: String to convert.
@@ -72,12 +73,12 @@ def lowercase(string):
         string: Lowercase case string.
 
     """
-
     return str(string).lower()
 
 
 def pascalcase(string):
-    """Convert string into pascal case.
+    """
+    Convert string into pascal case.
 
     Args:
         string: String to convert.
@@ -86,12 +87,13 @@ def pascalcase(string):
         string: Pascal case string.
 
     """
-
     return capitalcase(camelcase(string))
 
 
 def pathcase(string):
-    """Convert string into path case.
+    """
+    Convert string into path case.
+
     Join punctuation with slash.
 
     Args:
@@ -108,7 +110,9 @@ def pathcase(string):
 
 
 def backslashcase(string):
-    """Convert string into spinal case.
+    """
+    Convert string into spinal case.
+
     Join punctuation with backslash.
 
     Args:
@@ -125,8 +129,10 @@ def backslashcase(string):
 
 
 def sentencecase(string):
-    """Convert string into sentence case.
-    First letter capped and each punctuations are joined with space.
+    """
+    Convert string into sentence case.
+
+    First letter is capped and punctuations are joined with space.
 
     Args:
         string: String to convert.
@@ -135,19 +141,20 @@ def sentencecase(string):
         string: Sentence cased string.
 
     """
-    joiner = ' '
+    joiner = " "
     string = re.sub(r"[\-_\.\s]", joiner, str(string))
     if not string:
         return string
-    return capitalcase(trimcase(
-        re.sub(r"[A-Z]", lambda matched: joiner +
-                                         lowercase(matched.group(0)), string)
-    ))
+    return capitalcase(
+        trimcase(re.sub(r"[A-Z]", lambda matched: joiner + lowercase(matched.group(0)), string))
+    )
 
 
 def snakecase(string):
-    """Convert string into snake case.
-    Join punctuation with underscore
+    """
+    Convert string into snake case.
+
+    Join punctuation with underscore.
 
     Args:
         string: String to convert.
@@ -156,15 +163,18 @@ def snakecase(string):
         string: Snake cased string.
 
     """
-
-    string = re.sub(r"[\-\.\s]", '_', str(string))
+    string = re.sub(r"[\-\.\s]", "_", str(string))
     if not string:
         return string
-    return lowercase(string[0]) + re.sub(r"[A-Z]", lambda matched: '_' + lowercase(matched.group(0)), string[1:])
+    return lowercase(string[0]) + re.sub(
+        r"[A-Z]", lambda matched: "_" + lowercase(matched.group(0)), string[1:]
+    )
 
 
 def spinalcase(string):
-    """Convert string into spinal case.
+    """
+    Convert string into spinal case.
+
     Join punctuation with hyphen.
 
     Args:
@@ -174,12 +184,29 @@ def spinalcase(string):
         string: Spinal cased string.
 
     """
-
     return re.sub(r"_", "-", snakecase(string))
 
 
+def kebabcase(string):
+    """
+    Convert string into kebab case.
+
+    Join punctuation with hyphen; an alias of `spinalcase`.
+
+    Args:
+        string: String to convert.
+
+    Returns:
+        string: Spinal cased string.
+
+    """
+    return spinalcase(string)
+
+
 def dotcase(string):
-    """Convert string into dot case.
+    """
+    Convert string into dot case.
+
     Join punctuation with dot.
 
     Args:
@@ -189,13 +216,14 @@ def dotcase(string):
         string: Dot cased string.
 
     """
-
     return re.sub(r"_", ".", snakecase(string))
 
 
 def titlecase(string):
-    """Convert string into sentence case.
-    First letter capped while each punctuations is capitalsed
+    """
+    Convert string into sentence case.
+
+    First letter capped while each punctuations is capitalized
     and joined with space.
 
     Args:
@@ -205,14 +233,12 @@ def titlecase(string):
         string: Title cased string.
 
     """
-
-    return ' '.join(
-        [capitalcase(word) for word in snakecase(string).split("_")]
-    )
+    return " ".join([capitalcase(word) for word in snakecase(string).split("_")])
 
 
 def trimcase(string):
-    """Convert string into trimmed string.
+    """
+    Convert string into trimmed string.
 
     Args:
         string: String to convert.
@@ -220,27 +246,27 @@ def trimcase(string):
     Returns:
         string: Trimmed case string
     """
-
     return str(string).strip()
 
 
 def uppercase(string):
-    """Convert string into upper case.
+    """
+    Convert string into upper case.
 
     Args:
         string: String to convert.
 
     Returns:
         string: Uppercase case string.
-
     """
-
     return str(string).upper()
 
 
 def alphanumcase(string):
-    """Cuts all non-alphanumeric symbols,
-    i.e. cuts all expect except 0-9, a-z and A-Z.
+    """
+    Cuts all non-alphanumeric symbols.
+
+    I.e. cuts all expect except 0-9, a-z and A-Z.
 
     Args:
         string: String to convert.
@@ -249,4 +275,4 @@ def alphanumcase(string):
         string: String with cutted non-alphanumeric symbols.
 
     """
-    return ''.join(filter(str.isalnum, str(string)))
+    return "".join(filter(str.isalnum, str(string)))
