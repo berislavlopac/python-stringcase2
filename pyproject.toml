@@ -18,7 +18,7 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
 ]
-requires-python = ">=3.9"
+requires-python = ">=3.8"
 dependencies = [
 ]
 
@@ -41,7 +41,7 @@ filter_files = true
 force_alphabetical_sort_within_sections = true
 
 [tool.coverage.run]
-source = [ ".", ]
+source = [ "src/", ]
 omit = [ "*/tests/*", "src/tests/*", ]
 
 [tool.coverage.report]
